@@ -1,5 +1,5 @@
 // This file is generated. Do not edit by hand.
-// cmux-tui mux protocol 12, IR a7c2333b3e697db29aec05d498eaef13b9c41d138991ba08fef02691f77ad20c.
+// cmux-tui mux protocol 12, IR 2d37421f6b49597eddef63015f924aafddebf5186376c5aa38746e662058871d.
 // The emitter owns this layout so generation is independent of the installed rustfmt.
 
 use super::metadata::*;
@@ -1882,6 +1882,8 @@ pub struct MoveTabToColumnRequest {
     pub after_column: Optional<T::Id>,
     #[serde(default, skip_serializing_if = "Optional::is_missing")]
     pub dock: Optional<T::ColumnPin>,
+    #[serde(default, deserialize_with = "crate::presence::deserialize_optional_non_null", skip_serializing_if = "Option::is_none")]
+    pub keep_focus: Option<bool>,
     #[serde(default, skip_serializing_if = "Optional::is_missing")]
     pub pane: Optional<T::Id>,
     #[serde(default, skip_serializing_if = "Optional::is_missing")]
@@ -1919,6 +1921,8 @@ pub type MoveTabToNewWorkspaceResult = T::JsonValue;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MoveTabToSplitRequest {
     pub edge: String,
+    #[serde(default, deserialize_with = "crate::presence::deserialize_optional_non_null", skip_serializing_if = "Option::is_none")]
+    pub keep_focus: Option<bool>,
     pub pane: T::Id,
     #[serde(default, skip_serializing_if = "Optional::is_missing")]
     pub ratio: Optional<f32>,
@@ -4292,6 +4296,10 @@ impl CmuxClient {
             self.require_protocol_field("move-tab-to-column", 12)?;
             self.require_capability_field("move-tab-to-column", "dock-columns-v1")?;
         }
+        if request.keep_focus.is_some() {
+            self.require_protocol_field("move-tab-to-column", 12)?;
+            self.require_capability_field("move-tab-to-column", "tab-split-keep-focus-v1")?;
+        }
         if !request.respawn.is_missing() {
             self.require_protocol_field("move-tab-to-column", 12)?;
             self.require_capability_field("move-tab-to-column", "tab-column-respawn-v1")?;
@@ -4307,6 +4315,10 @@ impl CmuxClient {
     }
 
     pub fn move_tab_to_split(&mut self, request: MoveTabToSplitRequest) -> Result<MoveTabToSplitResult> {
+        if request.keep_focus.is_some() {
+            self.require_protocol_field("move-tab-to-split", 12)?;
+            self.require_capability_field("move-tab-to-split", "tab-split-keep-focus-v1")?;
+        }
         if !request.respawn.is_missing() {
             self.require_protocol_field("move-tab-to-split", 12)?;
             self.require_capability_field("move-tab-to-split", "tab-split-respawn-v1")?;
