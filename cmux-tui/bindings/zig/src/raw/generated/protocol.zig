@@ -7,7 +7,7 @@ const client_runtime = @import("../client.zig");
 
 pub const schema_version: u16 = 2;
 pub const mux_protocol: u16 = 12;
-pub const ir_sha256 = "a7c2333b3e697db29aec05d498eaef13b9c41d138991ba08fef02691f77ad20c";
+pub const ir_sha256 = "2d37421f6b49597eddef63015f924aafddebf5186376c5aa38746e662058871d";
 
 pub const ActivitySnapshot = struct {
     attached_clients: u32,
@@ -6088,12 +6088,17 @@ pub fn moveTabGroupToSplit(client: anytype, request: MoveTabGroupToSplitRequest)
 pub const MoveTabToColumnRequest = struct {
     after_column: wire.Field(Id) = .absent,
     dock: wire.Field(ColumnPin) = .absent,
+    keep_focus: ?bool = null,
     pane: wire.Field(Id) = .absent,
     respawn: wire.Field(SplitRespawn) = .absent,
     screen: wire.Field(Id) = .absent,
     surface: Id,
     transaction: wire.Field([]const u8) = .absent,
     width: wire.Field(f32) = .absent,
+
+    pub const cmux_wire_optional_nonnull_fields = [_][]const u8{
+        "keep_focus",
+    };
 };
 
 pub const MoveTabToColumnResult = JsonValue;
@@ -6108,6 +6113,7 @@ pub fn moveTabToColumn(client: anytype, request: MoveTabToColumnRequest) !wire.D
             .capability = "tab-drag-v1",
             .fields = &.{
                 .{ .name = "dock", .since = 12, .capability = "dock-columns-v1" },
+                .{ .name = "keep_focus", .since = 12, .capability = "tab-split-keep-focus-v1" },
                 .{ .name = "respawn", .since = 12, .capability = "tab-column-respawn-v1" },
             },
         },
@@ -6143,11 +6149,16 @@ pub fn moveTabToNewWorkspace(client: anytype, request: MoveTabToNewWorkspaceRequ
 
 pub const MoveTabToSplitRequest = struct {
     edge: []const u8,
+    keep_focus: ?bool = null,
     pane: Id,
     ratio: wire.Field(f32) = .absent,
     respawn: wire.Field(SplitRespawn) = .absent,
     surface: Id,
     transaction: wire.Field([]const u8) = .absent,
+
+    pub const cmux_wire_optional_nonnull_fields = [_][]const u8{
+        "keep_focus",
+    };
 };
 
 pub const MoveTabToSplitResult = JsonValue;
@@ -6161,6 +6172,7 @@ pub fn moveTabToSplit(client: anytype, request: MoveTabToSplitRequest) !wire.Dec
             .since = 12,
             .capability = "tab-drag-v1",
             .fields = &.{
+                .{ .name = "keep_focus", .since = 12, .capability = "tab-split-keep-focus-v1" },
                 .{ .name = "respawn", .since = 12, .capability = "tab-split-respawn-v1" },
             },
         },

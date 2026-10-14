@@ -14,7 +14,7 @@
 namespace cmux::raw {
 
 inline constexpr std::uint32_t kMuxProtocolVersion = 12U;
-inline constexpr std::string_view kProtocolIrSha256 = "a7c2333b3e697db29aec05d498eaef13b9c41d138991ba08fef02691f77ad20c";
+inline constexpr std::string_view kProtocolIrSha256 = "2d37421f6b49597eddef63015f924aafddebf5186376c5aa38746e662058871d";
 
 struct ActivitySnapshot;
 struct ActivitySubscribeResult;
@@ -3278,6 +3278,7 @@ struct SplitRespawn {
 struct MoveTabToColumnRequest {
     Field<Id> after_column{};
     Field<ColumnPin> dock{};
+    std::optional<bool> keep_focus{};
     Field<Id> pane{};
     Field<SplitRespawn> respawn{};
     Field<Id> screen{};
@@ -3298,6 +3299,7 @@ struct MoveTabToNewWorkspaceRequest {
 
 struct MoveTabToSplitRequest {
     std::string edge{};
+    std::optional<bool> keep_focus{};
     Id pane{};
     Field<float> ratio{};
     Field<SplitRespawn> respawn{};

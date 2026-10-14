@@ -1,10 +1,10 @@
 /* This file is generated. Do not edit by hand. */
-/* cmux-tui mux protocol 12, IR a7c2333b3e697db29aec05d498eaef13b9c41d138991ba08fef02691f77ad20c. */
+/* cmux-tui mux protocol 12, IR 2d37421f6b49597eddef63015f924aafddebf5186376c5aa38746e662058871d. */
 
 
 export const SDK_SCHEMA_VERSION = 2 as const;
 export const MUX_PROTOCOL_VERSION = 12 as const;
-export const SDK_IR_SHA256 = "a7c2333b3e697db29aec05d498eaef13b9c41d138991ba08fef02691f77ad20c" as const;
+export const SDK_IR_SHA256 = "2d37421f6b49597eddef63015f924aafddebf5186376c5aa38746e662058871d" as const;
 export const PROTOCOL = {
   "id_type": "uint64",
   "javascript_id_policy": "All protocol identifiers are uint64 JSON numbers. JavaScript and TypeScript SDKs must decode them losslessly as bigint (or validated decimal strings at their public boundary), and must not expose IEEE-754 number ids. Pairing request ids, revisions, timestamps, frame sequences, and reservation ids follow the same rule.",
@@ -1553,6 +1553,10 @@ export const COMMAND_METADATA = {
         "since": 12,
         "capability": "dock-columns-v1"
       },
+      "keep_focus": {
+        "since": 12,
+        "capability": "tab-split-keep-focus-v1"
+      },
       "respawn": {
         "since": 12,
         "capability": "tab-column-respawn-v1"
@@ -1583,6 +1587,10 @@ export const COMMAND_METADATA = {
     "since": 12,
     "capability": "tab-drag-v1",
     "fields": {
+      "keep_focus": {
+        "since": 12,
+        "capability": "tab-split-keep-focus-v1"
+      },
       "respawn": {
         "since": 12,
         "capability": "tab-split-respawn-v1"
@@ -18525,6 +18533,17 @@ export const COMMAND_SCHEMAS: Readonly<Record<string, CommandSchema>> = {
             "name": "ColumnPin"
           }
         },
+        "keep_focus": {
+          "capability": "tab-split-keep-focus-v1",
+          "default": false,
+          "nullable": false,
+          "presence": "optional",
+          "since": 12,
+          "type": {
+            "kind": "scalar",
+            "name": "boolean"
+          }
+        },
         "pane": {
           "default": null,
           "nullable": true,
@@ -18655,6 +18674,17 @@ export const COMMAND_SCHEMAS: Readonly<Record<string, CommandSchema>> = {
           "type": {
             "kind": "scalar",
             "name": "string"
+          }
+        },
+        "keep_focus": {
+          "capability": "tab-split-keep-focus-v1",
+          "default": false,
+          "nullable": false,
+          "presence": "optional",
+          "since": 12,
+          "type": {
+            "kind": "scalar",
+            "name": "boolean"
           }
         },
         "pane": {
