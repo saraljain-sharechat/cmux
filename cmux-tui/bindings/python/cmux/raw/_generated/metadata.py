@@ -8,7 +8,7 @@ from typing import Mapping, Optional, Tuple
 
 SCHEMA_VERSION = 2
 MUX_PROTOCOL = 12
-IR_SHA256 = '442dff11d53dfe645fc5ba440d155e195aa7731c5bcae322ad5f01627e4f886e'
+IR_SHA256 = '089eda927b1ccbc795449397bb6a395720c93ebefcb0aff73be1e8047d599386'
 
 
 @dataclass(frozen=True)
@@ -1767,6 +1767,7 @@ COMMANDS = {
         {
             'after_column': CommandFieldMetadata(None, None),
             'dock': CommandFieldMetadata(12, 'dock-columns-v1'),
+            'keep_focus': CommandFieldMetadata(12, 'tab-split-keep-focus-v1'),
             'pane': CommandFieldMetadata(None, None),
             'respawn': CommandFieldMetadata(12, 'tab-column-respawn-v1'),
             'screen': CommandFieldMetadata(None, None),
@@ -1799,6 +1800,7 @@ COMMANDS = {
         None,
         {
             'edge': CommandFieldMetadata(None, None),
+            'keep_focus': CommandFieldMetadata(12, 'tab-split-keep-focus-v1'),
             'pane': CommandFieldMetadata(None, None),
             'ratio': CommandFieldMetadata(None, None),
             'respawn': CommandFieldMetadata(12, 'tab-split-respawn-v1'),

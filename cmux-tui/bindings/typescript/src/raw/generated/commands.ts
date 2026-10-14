@@ -1,5 +1,5 @@
 /* This file is generated. Do not edit by hand. */
-/* cmux-tui mux protocol 12, IR 442dff11d53dfe645fc5ba440d155e195aa7731c5bcae322ad5f01627e4f886e. */
+/* cmux-tui mux protocol 12, IR 089eda927b1ccbc795449397bb6a395720c93ebefcb0aff73be1e8047d599386. */
 
 
 import type * as T from "./types.js";
@@ -1322,6 +1322,7 @@ export interface MoveTabToColumnRequest extends CmuxRequestBase {
   cmd: "move-tab-to-column";
   "after_column"?: (T.Id) | null;
   "dock"?: (T.ColumnPin) | null;
+  "keep_focus"?: boolean;
   "pane"?: (T.Id) | null;
   "respawn"?: (T.SplitRespawn) | null;
   "screen"?: (T.Id) | null;
@@ -1346,6 +1347,7 @@ export type MoveTabToNewWorkspaceResult = T.JsonValue;
 export interface MoveTabToSplitRequest extends CmuxRequestBase {
   cmd: "move-tab-to-split";
   "edge": string;
+  "keep_focus"?: boolean;
   "pane": T.Id;
   "ratio"?: (number) | null;
   "respawn"?: (T.SplitRespawn) | null;
