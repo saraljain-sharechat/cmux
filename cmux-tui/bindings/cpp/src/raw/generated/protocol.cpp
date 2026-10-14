@@ -21622,6 +21622,11 @@ Result<Json> Codec<MoveTabToSplitRequest>::encode(const MoveTabToSplitRequest& v
     auto encoded_edge = encode_value(value.edge);
     if (!encoded_edge) return std::move(encoded_edge).error();
     object.emplace("edge", std::move(encoded_edge).value());
+    if (value.keep_focus) {
+        auto encoded = encode_value(*value.keep_focus);
+        if (!encoded) return std::move(encoded).error();
+        object.emplace("keep_focus", std::move(encoded).value());
+    }
     auto encoded_pane = encode_value(value.pane);
     if (!encoded_pane) return std::move(encoded_pane).error();
     object.emplace("pane", std::move(encoded_pane).value());
@@ -21658,6 +21663,12 @@ Result<MoveTabToSplitRequest> Codec<MoveTabToSplitRequest>::decode(const Json& v
         auto decoded = decode_value<std::string>(*field_edge);
         if (!decoded) return std::move(decoded).error();
         result.edge = std::move(decoded).value();
+    }
+    const Json* field_keep_focus = value.find("keep_focus");
+    if (field_keep_focus) {
+        auto decoded = decode_value<bool>(*field_keep_focus);
+        if (!decoded) return std::move(decoded).error();
+        result.keep_focus = std::move(decoded).value();
     }
     const Json* field_pane = value.find("pane");
     if (!field_pane) {
@@ -37459,7 +37470,8 @@ constexpr std::array<CommandFieldRequirement, 2> kCommand133FieldRequirements{{
 constexpr std::array<CommandFieldRequirement, 1> kCommand134FieldRequirements{{
     {"name", 0U, "tab-workspace-name-v1"},
 }};
-constexpr std::array<CommandFieldRequirement, 1> kCommand135FieldRequirements{{
+constexpr std::array<CommandFieldRequirement, 2> kCommand135FieldRequirements{{
+    {"keep_focus", 12U, "tab-split-keep-focus-v1"},
     {"respawn", 12U, "tab-split-respawn-v1"},
 }};
 constexpr std::array<CommandFieldRequirement, 1> kCommand136FieldRequirements{{

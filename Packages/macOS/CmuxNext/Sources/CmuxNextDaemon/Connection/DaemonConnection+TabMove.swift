@@ -24,10 +24,16 @@ extension DaemonConnection {
         try await request(MoveTabToWorkspaceRequest(surface: surface, workspace: workspace, transaction: transaction))
     }
 
+    /// `keepFocus`: the new pane does not take focus. A daemon without
+    /// `tab-split-keep-focus-v1` gets the plain move (the new pane takes focus).
     @discardableResult
-    public func moveTabToSplit(_ surface: SurfaceID, pane: PaneID, edge: PaneEdge, ratio: Double? = nil,
+    public func moveTabToSplit(_ surface: SurfaceID, pane: PaneID, edge: PaneEdge, ratio: Double? = nil, keepFocus: Bool = false,
                                transaction: ClientTransactionID? = nil) async throws -> TabMoveResult {
-        try await requestNew(MoveTabToSplitRequest(surface: surface, pane: pane, edge: edge, ratio: ratio, transaction: transaction))
+        if keepFocus, identity?.supports(DaemonCapabilities.shared.tabSplitKeepFocus) == true {
+            return try await request(MoveTabToSplitKeepingFocusRequest(surface: surface, pane: pane, edge: edge, ratio: ratio,
+                                                                        transaction: transaction))
+        }
+        return try await requestNew(MoveTabToSplitRequest(surface: surface, pane: pane, edge: edge, ratio: ratio, transaction: transaction))
     }
 
     @discardableResult

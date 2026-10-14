@@ -3348,6 +3348,7 @@ class MoveTabToSplitRequest:
     surface: Id
     pane: Id
     edge: str
+    keep_focus: Union[bool, MissingType] = field(default=MISSING)
     ratio: Union[float, None, MissingType] = field(default=MISSING)
     respawn: Union[SplitRespawn, None, MissingType] = field(default=MISSING)
     transaction: Union[str, None, MissingType] = field(default=MISSING)

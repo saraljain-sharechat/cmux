@@ -8,6 +8,10 @@ use super::*;
 /// pane's edge splits the pane and leaves a fresh tab of the given kind.
 pub const TAB_SPLIT_RESPAWN_CAPABILITY: &str = "tab-split-respawn-v1";
 
+/// `move-tab-to-split` `keep_focus`: the new pane does not take focus, so an
+/// app can open a pane for an agent while the user types elsewhere.
+pub const TAB_SPLIT_KEEP_FOCUS_CAPABILITY: &str = "tab-split-keep-focus-v1";
+
 /// `move-tab-to-split`, with `respawn` when the request carries one.
 #[allow(clippy::too_many_arguments)]
 pub(super) fn split_tab(
@@ -18,11 +22,14 @@ pub(super) fn split_tab(
     edge: crate::TabDropEdge,
     ratio: Option<f32>,
     respawn: Option<SplitRespawnRequest>,
+    keep_focus: bool,
     transaction: Option<String>,
 ) -> anyhow::Result<crate::TabDragOutcome> {
     let actor = origin_gate::connection_actor(mux, client);
     match respawn {
-        None => mux.move_tab_to_split_as(&actor, surface, pane, edge, ratio, transaction),
+        None => {
+            mux.move_tab_to_split_as(&actor, surface, pane, edge, ratio, keep_focus, transaction)
+        }
         Some(respawn) => {
             let respawn = respawn.into_respawn(frontend_shell(mux, client))?;
             mux.move_tab_to_split_respawning_as(
@@ -31,6 +38,7 @@ pub(super) fn split_tab(
                 pane,
                 edge,
                 ratio,
+                keep_focus,
                 respawn,
                 transaction,
             )

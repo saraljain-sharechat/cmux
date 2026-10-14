@@ -517,6 +517,7 @@ impl Mux {
             pane,
             edge,
             ratio,
+            false,
             respawn,
             transaction,
         )

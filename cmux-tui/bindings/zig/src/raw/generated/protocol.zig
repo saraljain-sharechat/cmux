@@ -7,7 +7,7 @@ const client_runtime = @import("../client.zig");
 
 pub const schema_version: u16 = 2;
 pub const mux_protocol: u16 = 12;
-pub const ir_sha256 = "442dff11d53dfe645fc5ba440d155e195aa7731c5bcae322ad5f01627e4f886e";
+pub const ir_sha256 = "a6ac658c3f05c75a0f6386af2fd63ddd27352478dd187d7da0ddbfa03d23a9f4";
 
 pub const ActivitySnapshot = struct {
     attached_clients: u32,
@@ -6123,11 +6123,16 @@ pub fn moveTabToNewWorkspace(client: anytype, request: MoveTabToNewWorkspaceRequ
 
 pub const MoveTabToSplitRequest = struct {
     edge: []const u8,
+    keep_focus: ?bool = null,
     pane: Id,
     ratio: wire.Field(f32) = .absent,
     respawn: wire.Field(SplitRespawn) = .absent,
     surface: Id,
     transaction: wire.Field([]const u8) = .absent,
+
+    pub const cmux_wire_optional_nonnull_fields = [_][]const u8{
+        "keep_focus",
+    };
 };
 
 pub const MoveTabToSplitResult = JsonValue;
@@ -6141,6 +6146,7 @@ pub fn moveTabToSplit(client: anytype, request: MoveTabToSplitRequest) !wire.Dec
             .since = 12,
             .capability = "tab-drag-v1",
             .fields = &.{
+                .{ .name = "keep_focus", .since = 12, .capability = "tab-split-keep-focus-v1" },
                 .{ .name = "respawn", .since = 12, .capability = "tab-split-respawn-v1" },
             },
         },

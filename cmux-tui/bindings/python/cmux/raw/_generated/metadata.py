@@ -8,7 +8,7 @@ from typing import Mapping, Optional, Tuple
 
 SCHEMA_VERSION = 2
 MUX_PROTOCOL = 12
-IR_SHA256 = '442dff11d53dfe645fc5ba440d155e195aa7731c5bcae322ad5f01627e4f886e'
+IR_SHA256 = 'a6ac658c3f05c75a0f6386af2fd63ddd27352478dd187d7da0ddbfa03d23a9f4'
 
 
 @dataclass(frozen=True)
@@ -1799,6 +1799,7 @@ COMMANDS = {
         None,
         {
             'edge': CommandFieldMetadata(None, None),
+            'keep_focus': CommandFieldMetadata(12, 'tab-split-keep-focus-v1'),
             'pane': CommandFieldMetadata(None, None),
             'ratio': CommandFieldMetadata(None, None),
             'respawn': CommandFieldMetadata(12, 'tab-split-respawn-v1'),
